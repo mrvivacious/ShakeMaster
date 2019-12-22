@@ -7,6 +7,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -14,12 +15,15 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
     private SensorManager sensorManager;
 
-    // Sensors
     private Sensor accelerometer;
 
     float x, y, z;
     float prevX = 0, prevY = 0, prevZ = 0;
+
     long prevTime = 0;
+
+    MediaPlayer mediaPlayer;
+
 
     private void initSensors() {
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -35,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         setContentView(R.layout.activity_main);
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.ouch);
 
         initSensors();
     }
@@ -48,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+        // Thank you,
+        // https://stackoverflow.com/questions/5271448/how-to-detect-shake-event-with-android
         // Accelerometer changed, detect shake
         x = event.values[0];
         y = event.values[1];
@@ -60,7 +67,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             Log.d("$$$$$", "" + speed);
 
             if (speed > 30000) {
-                Toast.makeText(this, "Shaken", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "Shaken", Toast.LENGTH_LONG).show();
+                mediaPlayer.start();
             }
 
             prevX = x;
