@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     MediaPlayer mediaPlayer;
 
-
     private void initSensors() {
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
@@ -83,6 +82,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
-
+        // Nothing for this project
     }
 }
